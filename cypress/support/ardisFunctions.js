@@ -2,8 +2,16 @@ import ardisLocators from '../support/ardisLocators'
 
 export function navigate(){
     cy.visit('https://staging-ardis.polixis.com/search')
-    
 }
+
+export function getXpath(locator){
+    cy.xpath(locator)
+}
+
+export function getCSS(locator){
+    cy.get(locator)
+}
+
 export function clickCSS(locator){
 	cy.get(locator).click()
 }
@@ -13,7 +21,7 @@ export function clickXpath(locator){
 }
 
 export function waiter(){
-	cy.wait(2000);
+	cy.wait(1000);
 }
 
 export function login(){
@@ -22,27 +30,31 @@ export function login(){
     clickXpath(ardisLocators.loginButton)
 }
 
-export function searchWithTheTIN(){
+export function searchWithTIN(){
     cy.xpath(ardisLocators.inputSearchField).type("770303428416")
     clickXpath(ardisLocators.searchButton)
 }
 
-export function listElementsFunction(locator, arr){
+export function listElements(locator, arr){
     arr.forEach(text => {
         cy.xpath(locator).should('contain', text);
     });
-	
 }
 
-export let array = [
-    "Ziyad Manasir",
-    "Ziad Khalaf Al-manaser",
-    "Ziyad Khalaf Mohammad Al Manaseer",
-    "Ziad Khalaf Mohammed Al-manaser",
-    "Ziyad Manaseer",
-    "Ziyad Khalaf Mohammed Manaseer",
-    "Ziad Khalaf Mohamed Manasir",
-    "Ziad Khalaf Mohammed Al Manaseer",
-    "Ziad Khalaf Al Manasir",
-    "Ziyad Al Manassir"
-]
+export function containsText(locator, arr){
+    arr.forEach(text => {
+        cy.xpath(locator).should('contain', text);
+    });
+}
+
+export function xpathFunctionWithIndex(index){
+    return "(//*[@class='wordBreak'])[" + index + "]"
+}
+
+export function xpathFunctionWithString(string){
+    return "//*[contains(text()," + string + ")]"
+}
+
+export function xpathFunctionWithTwoStrings(string){
+    return "//*[contains(text(), 'Related " + string + "')]"
+}
