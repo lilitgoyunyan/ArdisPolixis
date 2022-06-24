@@ -35,8 +35,8 @@ module.exports = {
     position: xpathFunctionWithString("Position"),
     positionText: xpathFunctionWithIndex(9),
     more: '.left-side > :nth-child(1) img[alt*="doneImage"]',
-    explore: ".btn-selected-result > :nth-child(3)",
-    continue: "//*[@class='fab-explore btn-float btn-action']//*[contains(text(),'Continue')]",
+    explore: ".btn-selected-result > :nth-child(3)", 
+    continue: '.MuiDialogActions-root > :nth-child(3)',
     keyIdentifiers: ".MuiBox-root > :nth-child(2)",
     akaExplore: xpathContainsText('AKA'),
     akaExploreText: "//div[contains(text(),'AKA')]/parent::div//div[2]",
@@ -67,7 +67,11 @@ module.exports = {
     newsSearchCard: '//*[@class="row right-entity newsSearch-heightCalc newSearchCardContainer"]//div[@class="news-article"]',
     judicalProfileCard: '//div[@class="row component-list judicial"]//div[@class="hit-selected"]',
     businessProfileCard: '//div[@class="businessprofile_card card"]//div[@class="card-item"]',
-    politicalProfileCard: '//div[@class="politicalprofile_card card"]//div[@class="card-item"]'
+    politicalProfileCard: '//div[@class="politicalprofile_card card"]//div[@class="card-item"]',
+    loader: '.loader-container',
+    pointer: '.timeline > .pointer',
+    
+    
 
    
 }
