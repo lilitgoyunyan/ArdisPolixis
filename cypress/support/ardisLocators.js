@@ -1,3 +1,4 @@
+const { alertPavelAssertion } = require("./ardisAssertions");
 const { xpathFunctionWithString, xpathFunctionWithIndex, xpathFunctionWithTwoStrings, xpathFunctionNameFiller, xpathContainsText } = require("./ardisFunctions");
 
 module.exports = {
@@ -70,6 +71,11 @@ module.exports = {
     politicalProfileCard: '//div[@class="politicalprofile_card card"]//div[@class="card-item"]',
     loader: '.loader-container',
     pointer: '.timeline > .pointer',
+    leftFirstNode: '.left-side > :nth-child(1)',
+    expectedAlertText: "Related to a systemic entity",
+    
+
+    
     
     
 

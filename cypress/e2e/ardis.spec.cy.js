@@ -1,11 +1,15 @@
 import { beforeEach } from "mocha"
+import { exploreEndpointAssertion, interceptAs, resultsAssertion, waitUntil } from "../support/apiFunctions";
 import { arr, array, arrayExploreAka } from "../support/ardisAssertionData";
-import { addressAssertion, akaAssertion, akaExploreAssertion, alertsAssertion, alertsExploreAssertion, ardisIdAssertion, ardisIdExploreAssertion, avatarAssertion, biographyAssertion, businessProfileExploreAssertion, dateOfBirthAssertion, graphExploreAssertion, judicialProfileExploreAssertion, jurisdictionAssertion, jurisdictionExploreAssertion, leftNewsSearchAssertion, nationalIdAssertion, newsSearchCountAssertion, pepAssertion, politicalProfileExploreAssertion, positionAssertion, positionsExploreAssertion, relateddatesExploreAssertion, relatedOrgAssertion, relatedPeopleAssertion, relatedPeopleSecondAssertion, searchResultAssertion, statusExploreAssertion, tinAssertion, tinExploreAssertion, uniExploreAssertion, newsSearchAssertion, akaRussianAssertion, ardisIdRussianAssertion, legalTypesAssertion, possibleAddressesAssertion, uniRussianAssertion, jurisdictionRussianAssertion, statusRussianAssertion, relatedDatesRussianAssertion, sanctionsRussianAssertion, alertsRussianAssertion, remarkRussianAssertion } from "../support/ardisAssertions";
-import { clickMore, exploreFunction, login, navigate, navigateToBusinessProfile, navigateToExplore, navigateToJudicial, navigateToNewsSearchExplore, navigateToPoliticalProfile, navigateToRelationships, searchWithTIN, waiter, chooseResult, clickExploreButton } from "../support/ardisFunctions";
-import { dropDownMenu, left, right } from "../support/ardisLocators";
+import { addressAssertion, akaAssertion, akaExploreAssertion, alertsAssertion, alertsExploreAssertion, ardisIdAssertion, ardisIdExploreAssertion, avatarAssertion, biographyAssertion, businessProfileExploreAssertion, dateOfBirthAssertion, graphExploreAssertion, judicialProfileExploreAssertion, jurisdictionAssertion, jurisdictionExploreAssertion, leftNewsSearchAssertion, nationalIdAssertion, newsSearchCountAssertion, pepAssertion, politicalProfileExploreAssertion, positionAssertion, positionsExploreAssertion, relateddatesExploreAssertion, relatedOrgAssertion, relatedPeopleAssertion, relatedPeopleSecondAssertion, searchResultAssertion, statusExploreAssertion, tinAssertion, tinExploreAssertion, uniExploreAssertion, newsSearchAssertion, akaRussianAssertion, ardisIdRussianAssertion, legalTypesAssertion, possibleAddressesAssertion, uniRussianAssertion, jurisdictionRussianAssertion, statusRussianAssertion, relatedDatesRussianAssertion, sanctionsRussianAssertion, alertsRussianAssertion, remarkRussianAssertion, alertNataliyaAssertion, alertPavelAssertion, alertSystematicAssertion } from "../support/ardisAssertions";
+import { clickMore, exploreFunction, login, navigate, navigateToBusinessProfile, navigateToExplore, navigateToJudicial, navigateToNewsSearchExplore, navigateToPoliticalProfile, navigateToRelationships, searchWithTIN, waiter, chooseResult, clickExploreButton, advancedSearchToDefaultFunction, searchWithName, helperClear } from "../support/ardisFunctions";
+import { advancedSearchOptionsButton, alertPavelText, clearButton, dropDownMenu, electroMech, electroMechName, expectedAlertPavelText, expectedAlertText, inputSearchField, left, natalyaName, pavelName, right } from "../support/ardisLocators";
 import { alertsExplore_Miguel, alert_Miguel, ardisIdExplore_Miguel, ardisId_Miguel, bio_Miguel, dateOfBirth_Miguel, jurisdictionExplore_Miguel, jurisdiction_Miguel, positionsExplore_Miguel, position_Miguel, relatedDatesExplore_Miguel, searchResult_Miguel, text_Miguel, tin_Miguel, uniExplore_Miguel } from "../support/ardisMiguelHelpers";
-import { alertsText_Russian, ardisIdText, jurisdictionText_Russian, legalTypesText, possibleAddressesText, relatedDatesText_Russian, sanctionsText_Russian, searchResult_Russian, tin_Russian, uniText_Russian } from "../support/ardisRussianLocators";
+import ardisNatalyaHelpers from "../support/ardisNatalyaHelpers";
+import ardisPavelHelpers from "../support/ardisPavelHelpers";
+import { alertsText_Russian, ardisIdText, jurisdictionText_Russian, legalTypesText, possibleAddressesText, relatedDatesText_Russian, sanctionsText_Russian, searchResult_Russian, tin_Russian, uniText_Russian } from "../support/ardisRussianHelpers";
 import { searchResult_Ziad, text_Ziad, dateOfBirth_Ziad, bio_Ziad, relatedOrg_Ziad, relatedPeople_Ziad, jurisdiction_Ziad, tin_Ziad, address_Ziad, tinSecond_Ziad } from "../support/ardisZiadHelpers"
+import electroMechHelpers from "../support/electroMechHelpers";
 
 describe('News search test', () => {
   beforeEach(() => {
@@ -69,7 +73,7 @@ describe('News search test', () => {
 
 
   })
-  it.only('C202:', () => {
+  it('C202:', () => {
     searchWithTIN(tin_Russian)
     searchResultAssertion(searchResult_Russian)
     chooseResult();
@@ -88,4 +92,36 @@ describe('News search test', () => {
     remarkRussianAssertion()
 
   })
+  it('C329: Systemic Entities Auto-Generated Alerts', () => {
+    searchWithName(ardisNatalyaHelpers.natalyaName)
+    alertNataliyaAssertion()
+  })
+
+  it.only('C328: Systemic Entities Auto-Generated Alerts', () => {
+    searchWithName(ardisPavelHelpers.pavelName)
+    waiter()
+    alertSystematicAssertion(ardisPavelHelpers.alertPavelText, expectedAlertText)
+    helperClear(inputSearchField)
+    searchWithName(electroMechHelpers.electroMechName)
+    waiter()
+    alertSystematicAssertion(electroMechHelpers.electroMech, expectedAlertText)
+  })
+
+
+
+  it('C319', () => {
+    searchWithName("Mohammad Saif Ahmad Alghurair")
+    interceptAs('/api/v2/core/search',  'searchEndpoint')
+    waitUntil('@searchEndpoint', {timeout:20000})
+    resultsAssertion('@searchEndpoint', 'INFO', 'PEP')
+    clickMore()
+    clickExploreButton()
+    interceptAs('/api/v2/core/explore', 'exploreEndpoint')
+    waitUntil('@exploreEndpoint', {timeout:20000})
+    exploreEndpointAssertion('@exploreEndpoint','ELASTIC')
+  })
+
+
+
+
 })

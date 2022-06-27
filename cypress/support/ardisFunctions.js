@@ -22,7 +22,7 @@ export function clickXpath(locator) {
 }
 
 export function waiter() {
-    cy.wait(3000);
+    cy.wait(6000);
 }
 
 export function login() {
@@ -112,7 +112,14 @@ export function chooseResult() {
 export function clickExploreButton() {
     cy.get(ardisLocators.explore).should('be.visible');
     cy.get(ardisLocators.explore).click({ timeout: 1000 });
-    // ?
     cy.get(ardisLocators.continue).click();
     waiter();
+}
+
+export function searchWithName(name) {
+    cy.xpath(ardisLocators.inputSearchField).type(name)
+    clickXpath(ardisLocators.searchButton)
+}
+export function helperClear(locator){
+    cy.xpath(locator).focus().clear()
 }

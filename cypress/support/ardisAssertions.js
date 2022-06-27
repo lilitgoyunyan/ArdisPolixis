@@ -1,6 +1,7 @@
 import { listElements, listElementsSecond, waiter, xpathFunctionNameFiller } from "./ardisFunctions";
 import ardisLocators, { businessProfileCard } from "./ardisLocators";
-import ardisRussianLocators, { akaResults_Russian, aka_Russian, remarkResult_Russian, remark_Russian } from "./ardisRussianLocators";
+import ardisNatalyaHelpers from "./ardisNatalyaHelpers";
+import ardisRussianLocators, { akaResults_Russian, aka_Russian, remarkResult_Russian, remark_Russian } from "./ardisRussianHelpers";
 
 export function searchResultAssertion(name) {
 	waiter()
@@ -175,4 +176,10 @@ export function alertsRussianAssertion(text) {
 export function remarkRussianAssertion() {
 	cy.xpath(remark_Russian).should('exist')
 	cy.xpath(remarkResult_Russian).its("length").should('be.gte', 1)
+}
+export function alertNataliyaAssertion() {
+	cy.xpath(ardisNatalyaHelpers.alertNotExisting).should('not.exist')
+}
+export function alertSystematicAssertion(locator,text){
+	cy.xpath(locator).should('include.text', text)
 }
